@@ -3,6 +3,7 @@ from textwrap import dedent
 from pprint import pprint
 import sys
 import os
+import json
 
 # The DAG object; we'll need this to instantiate a DAG
 from airflow import DAG
@@ -19,7 +20,7 @@ from airflow.operators.python import (
 )
 
 with DAG(
-    'pyspark_movie',
+    'dynamic_json',
     default_args={
         'depends_on_past': False,
         'retries': 1,
@@ -28,18 +29,28 @@ with DAG(
     max_active_runs=1,
     max_active_tasks=3,
     description='pyspark_movie',
-    schedule="10 2 * * *",
+    schedule="@once",
     start_date=datetime(2015, 1 ,1),
     end_date=datetime(2016,1,1),
     catchup=True,
     tags=['pyspark', 'movie', 'api', 'atm'],
 ) as dag:
 
-    get_data = BashOperator(
+    def get_data(year):
+        from spark_flow.movies_dynamic_json_m import save_movies, save_json
+        data = save_movies()
+        file_path = f'/home/hahahellooo/data/movies_page/year={year}/data.json'
+        d = save_json(data, file_path)
+        print(d, file_path)
+        return d
+
+    
+    get_data = PythonVirtualenvOperator(
             task_id="get.data",
-            bash_command="""
-            echo "get.data"
-            """
+            python_callable=get_data,
+            requirements=["git+https://github.com/hahahellooo/spark_flow.git@0.2.0/airflowdag"],
+            system_site_packages=False,
+            op_args=["{{logical_date.strftime('%Y')}}"]
     )
 
     parsing_parquet = BashOperator(
