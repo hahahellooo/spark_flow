@@ -5,11 +5,14 @@ description = "Default template for PDM package"
 authors = [
     {name = "hahahellooo", email = "hahahello777@gmail.com"},
 ]
-dependencies = []
-requires-python = "==3.11.*"
+dependencies = [
+    "pandas>=2.2.2",
+    "pyarrow>=17.0.0",
+]
+requires-python = ">=3.9"
 readme = "README.md"
 license = {text = "MIT"}
 
 
 [tool.pdm]
-distribution = false
+distribution = true
