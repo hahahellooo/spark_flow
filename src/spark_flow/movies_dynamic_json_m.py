@@ -27,7 +27,7 @@ def save_movies(year):
     
     if os.path.exists(file_path):
         print(f"데이터가 이미 존재합니다: {file_path}")
-        continue
+        return []
     else:
         print("데이터를 저장합니다.")
             

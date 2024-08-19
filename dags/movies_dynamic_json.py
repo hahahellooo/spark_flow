@@ -29,9 +29,9 @@ with DAG(
     max_active_runs=1,
     max_active_tasks=3,
     description='pyspark_movie',
-    schedule="@once",
-    start_date=datetime(2015, 1 ,1),
-    end_date=datetime(2016,1,1),
+    schedule="@yearly",
+    start_date=datetime(2014, 1 ,1),
+    end_date=datetime(2021,12,31),
     catchup=True,
     tags=['pyspark', 'movie', 'api', 'atm'],
 ) as dag:
@@ -42,6 +42,7 @@ with DAG(
         file_path = f'/home/hahahellooo/data/movies_page/year={year}/data.json'
         d = save_json(data, file_path)
         print(d, file_path)
+
         return d
 
     
