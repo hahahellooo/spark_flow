@@ -38,7 +38,7 @@ with DAG(
 
     def get_data(year):
         from spark_flow.movies_dynamic_json_m import save_movies, save_json
-        data = save_movies()
+        data = save_movies(year)
         file_path = f'/home/hahahellooo/data/movies_page/year={year}/data.json'
         d = save_json(data, file_path)
         print(d, file_path)
