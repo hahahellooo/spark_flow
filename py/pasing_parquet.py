@@ -3,11 +3,11 @@ import sys
 from pyspark.sql.types import StructType, ArrayType
 from pyspark.sql.functions import explode_outer, col, size
 
-APP_NAME = sys.argv[1]
+year = sys.argv[1]
 spark = SparkSession.builder.appName("Dynamic_parcing").getOrCreate()
 
 # spark으로 멀티라인 json파일 읽어오기
-jdf = spark.read.option("multiline","true").json('/home/hahahellooo/data/movies_page/year=2015/data.json')
+jdf = spark.read.option("multiline","true").json(f'/home/hahahellooo/data/movies_page/year={year}/data.json')
 
 edf = jdf.withColumn("company", explode_outer("companys"))
 eedf = edf.withColumn("director", explode_outer("directors"))
