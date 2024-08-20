@@ -31,7 +31,7 @@ with DAG(
     description='pyspark_movie',
     schedule="@yearly",
     start_date=datetime(2014, 1 ,1),
-    end_date=datetime(2021,12,31),
+    end_date=datetime(2024,12,31),
     catchup=True,
     tags=['pyspark', 'movie', 'api', 'atm'],
 ) as dag:
@@ -57,7 +57,7 @@ with DAG(
     parsing_parquet = BashOperator(
         task_id='parsing.parquet',
         bash_command="""
-        echo "parsing.parquet"
+            $SPARK_HOME/bin/spark-submit /home/hahahellooo/code/spark_flow/py/pasing_parquet.py {{logical_date.strftime('%Y')}}
         """
 
     )
@@ -65,7 +65,8 @@ with DAG(
     select_parquet = BashOperator(
         task_id='select.parquet',
         bash_command="""
-        echo "select.parquet"                                                             """
+            $SPARK_HOME/bin/spark-submit /home/hahahellooo/code/spark_flow/py/select_parquet.py {{logical_date.strftime('%Y')}}
+        """
 
     )
     start = EmptyOperator(task_id='start')
