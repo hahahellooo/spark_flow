@@ -28,9 +28,9 @@ with DAG(
     max_active_runs=1,
     max_active_tasks=3,
     description='pyspark_movie',
-    schedule="10 2 * * *",
+    schedule="* * 1 * *",
     start_date=datetime(2015, 1 ,1),
-    end_date=datetime(2016,1,1),
+    end_date=datetime(2015,1,3),
     catchup=True,
     tags=['pyspark', 'movie', 'api', 'atm'],
 ) as dag:
